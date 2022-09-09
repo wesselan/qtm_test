@@ -1,11 +1,10 @@
-
 import asyncio
-#from scipy.spatial.transform import Rotation as R
+from scipy.spatial.transform import Rotation as R
 
 import qtm
 
-async def main():
 
+async def main():
     connection = await qtm.connect("127.0.0.1")
 
     if connection is None:
@@ -14,12 +13,12 @@ async def main():
     else:
         print("Yay! Connected :)")
 
-    async with qtm.TakeControl(connection,"password"):
+    async with qtm.TakeControl(connection, "password"):
         await connection.new()
 
     def on_packet(packet):
         # get and print packet number and bodies
-        info, bodies = packet.get_6d() # what is packet.get_...
+        info, bodies = packet.get_6d()  # what is packet.get_...
         print("Framenumber: {} - Body count: {}".format(
             packet.framenumber, info.body_count))
 
@@ -27,12 +26,20 @@ async def main():
         for position, rotation in bodies:
             print("Pos: {}\nRot: {}".format(position, rotation))
 
-        print(bodies)
+        # get rot matrix
+        rotation_ = R.from_matrix(packet.matrix)
+
+        # turn rot matrix into quaternion
+        quater = R.as_quat(rotation_)
+
+        # add pos and quat to mavlink message
+        return quater
 
     one_pack = await connection.get_current_frame(components=["6d"])
 
     on_packet(one_pack)
-        
+
+
 if __name__ == "__main__":
     # Run our asynchronous function until complete
     asyncio.run(main())
