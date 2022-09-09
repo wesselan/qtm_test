@@ -5,6 +5,7 @@
 import asyncio
 import xml.etree.ElementTree as ET
 import pkg_resources
+import numpy as np
 
 import qtm
 
@@ -66,13 +67,16 @@ async def main():
             wanted_index = body_index[wanted_body]
             position, rotation = bodies[wanted_index]
             print("{} - Pos: {} - Rot: {}".format(wanted_body, position, rotation))
+            print(bodies[wanted_index][1].matrix[0])
+            print(np.array(rotation.matrix))
         else:
             # Print all bodies
             for position, rotation in bodies:
                 print("Pos: {} - Rot: {}".format(position, rotation))
 
+
     # Start streaming frames
-    await connection.stream_frames(components=["6d"], on_packet=on_packet)
+    await connection.stream_frames(frames="frequency:2", components=["6d"], on_packet=on_packet)
 
     # Wait asynchronously 5 seconds
     await asyncio.sleep(5)
