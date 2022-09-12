@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 import pkg_resources
 import numpy as np
 from scipy.spatial.transform import Rotation as R
+import mavsdk
 
 
 import qtm
@@ -82,6 +83,10 @@ async def main():
             mavsdk_quaternion = scipy_quaternion[reorder_idx]
             print(scipy_quaternion)
             print(mavsdk_quaternion)
+            """
+            WIP: Creating and sending the mavlink message
+            mavsdk.mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position, pose_covariance)
+            """
         else:
             # Print all bodies
             for position, rotation in bodies:
