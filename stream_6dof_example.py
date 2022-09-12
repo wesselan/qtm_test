@@ -71,10 +71,17 @@ async def main():
             # print("{} - Pos: {} - Rot: {}".format(wanted_body, position, rotation))
             # print(bodies[wanted_index][1].matrix[0])
             rotation_matrix = np.array(rotation.matrix)
+            # this is to go from vector to matrix
+            # <Data_orientation R11 R12 R13 R21 R22 R23 R31 R32 R33 Relative_body>
+            # https://docs.qualisys.com/qtm-rt-protocol/#6d-xml-parameters
             rotation_matrix.shape = (3, 3)
             print(rotation_matrix)
             rotation_matrix = R.from_matrix(rotation_matrix)
-            print(rotation_matrix.as_quat())
+            scipy_quaternion = rotation_matrix.as_quat()
+            reorder_idx = [1, 2, 3, 0]
+            mavsdk_quaternion = scipy_quaternion[reorder_idx]
+            print(scipy_quaternion)
+            print(mavsdk_quaternion)
         else:
             # Print all bodies
             for position, rotation in bodies:
