@@ -59,6 +59,8 @@ async def main():
 
     def on_packet(packet):
         info, bodies = packet.get_6d()
+        time_var = packet.get_timecode()
+        print(time_var)
         print(
             "Framenumber: {} - Body count: {}".format(
                 packet.framenumber, info.body_count
@@ -93,7 +95,7 @@ async def main():
                 print("Pos: {} - Rot: {}".format(position, rotation))
 
     # Start streaming frames
-    await connection.stream_frames(frames="frequency:1", components=["6d"], on_packet=on_packet)
+    await connection.stream_frames(frames="frequency:1", components=["6d", "timecode"], on_packet=on_packet)
 
     # Wait asynchronously 5 seconds
     await asyncio.sleep(5)
