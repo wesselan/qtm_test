@@ -64,8 +64,18 @@ async def main():
                 Quaternion entry 2, also denoted as c
             z : float
                 Quaternion entry 3, also denoted as d
+                
+            class mavsdk.mocap.AttitudePositionMocap(time_usec, q, position_body, pose_covariance)
+            Motion capture attitude and position
+            Parameters:
+            time_usec (uint64_t) – PositionBody frame timestamp UNIX Epoch time (0 to use Backend timestamp)
+            q (Quaternion) – Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
+            position_body (PositionBody) – Body Position (NED)
+            pose_covariance (Covariance) – Pose cross-covariance matrix.
             """
-            return rotation_matrix.as_quat()
+            scipy_quaternion = rotation_matrix.as_quat()
+            mavsdk_quaternion = scipy_quaternion[[1, 2, 3, 0]]
+            mavsdk.mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position_body, pose_covariance)
 
     one_pack = await connection.get_current_frame(components=["6d"])
 
