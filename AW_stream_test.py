@@ -41,29 +41,30 @@ async def main():
             """
             From SciPy - https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.as_quat.html#scipy.spatial.transform.Rotation.as_quat
             Represent as quaternions.
-             Rotations in 3 dimensions can be represented using unit norm quaternions [1]. The mapping from quaternions 
-             to rotations is two-to-one, i.e. quaternions q and -q, where -q simply reverses the sign of each component, 
-             represent the same spatial rotation. The returned value is in scalar-last (x, y, z, w) format.  
+            Rotations in 3 dimensions can be represented using unit norm quaternions [1]. The mapping from quaternions 
+            to rotations is two-to-one, i.e. quaternions q and -q, where -q simply reverses the sign of each component, 
+            represent the same spatial rotation. The returned value is in scalar-last (x, y, z, w) format.
+            [1] https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation 
             """
             """
             From MAVSDK - https://github.com/mavlink/MAVSDK-Python/blob/main/mavsdk/mocap.py
-             Quaternion type.
-             All rotations and axis systems follow the right-hand rule.
-             The Hamilton quaternion product definition is used.
-             A zero-rotation quaternion is represented by (1,0,0,0).
-             The quaternion could also be written as w + xi + yj + zk.
-             For more info see: https://en.wikipedia.org/wiki/Quaternion
-             Parameters
-             ----------
-             w : float
-                  Quaternion entry 0, also denoted as a
-             x : float
-                  Quaternion entry 1, also denoted as b
-             y : float
-                  Quaternion entry 2, also denoted as c
-             z : float
-                  Quaternion entry 3, also denoted as d
-             """
+            Quaternion type.
+            All rotations and axis systems follow the right-hand rule.
+            The Hamilton quaternion product definition is used.
+            A zero-rotation quaternion is represented by (1,0,0,0).
+            The quaternion could also be written as w + xi + yj + zk.
+            For more info see: https://en.wikipedia.org/wiki/Quaternion
+            Parameters
+            ----------
+            w : float
+                Quaternion entry 0, also denoted as a
+            x : float
+                Quaternion entry 1, also denoted as b
+            y : float
+                Quaternion entry 2, also denoted as c
+            z : float
+                Quaternion entry 3, also denoted as d
+            """
             return rotation_matrix.as_quat()
 
     one_pack = await connection.get_current_frame(components=["6d"])
