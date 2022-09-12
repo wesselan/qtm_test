@@ -1,2 +1,3 @@
 qtm
 scipy
+numpy
