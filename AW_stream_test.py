@@ -14,6 +14,7 @@ async def main():
     else:
         print("Yay! Connected :)")
 
+    # close qtm files and start realtime camera feed
     async with qtm.TakeControl(connection, "password"):
         await connection.new()
 
@@ -36,7 +37,7 @@ async def main():
             rotation_matrix = rotat.from_matrix(rotation_matrix)
             print(rotation_matrix.as_quat())
 
-            # add pos and quat to mavlink message
+            # add pos and quaternion to mavlink message
             return rotation_matrix.as_quat()
 
     one_pack = await connection.get_current_frame(components=["6d"])
