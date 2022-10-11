@@ -6,6 +6,9 @@ import asyncio
 import xml.etree.ElementTree as ET
 import pkg_resources
 import numpy as np
+from scipy.spatial.transform import Rotation as R
+import mavsdk
+
 
 import qtm
 
@@ -56,6 +59,8 @@ async def main():
 
     def on_packet(packet):
         info, bodies = packet.get_6d()
+        time_var = packet.get_timecode()
+        print(time_var)
         print(
             "Framenumber: {} - Body count: {}".format(
                 packet.framenumber, info.body_count
@@ -66,17 +71,31 @@ async def main():
             # Extract one specific body
             wanted_index = body_index[wanted_body]
             position, rotation = bodies[wanted_index]
-            print("{} - Pos: {} - Rot: {}".format(wanted_body, position, rotation))
-            print(bodies[wanted_index][1].matrix[0])
-            print(np.array(rotation.matrix))
+            # print("{} - Pos: {} - Rot: {}".format(wanted_body, position, rotation))
+            # print(bodies[wanted_index][1].matrix[0])
+            rotation_matrix = np.array(rotation.matrix)
+            # this is to go from vector to matrix
+            # <Data_orientation R11 R12 R13 R21 R22 R23 R31 R32 R33 Relative_body>
+            # https://docs.qualisys.com/qtm-rt-protocol/#6d-xml-parameters
+            rotation_matrix.shape = (3, 3)
+            print(rotation_matrix)
+            rotation_matrix = R.from_matrix(rotation_matrix)
+            scipy_quaternion = rotation_matrix.as_quat()
+            reorder_idx = [1, 2, 3, 0]
+            mavsdk_quaternion = scipy_quaternion[reorder_idx]
+            print(scipy_quaternion)
+            print(mavsdk_quaternion)
+            """
+            WIP: Creating and sending the mavlink message
+            mavsdk.mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position, pose_covariance)
+            """
         else:
             # Print all bodies
             for position, rotation in bodies:
                 print("Pos: {} - Rot: {}".format(position, rotation))
 
-
     # Start streaming frames
-    await connection.stream_frames(frames="frequency:2", components=["6d"], on_packet=on_packet)
+    await connection.stream_frames(frames="frequency:1", components=["6d", "timecode"], on_packet=on_packet)
 
     # Wait asynchronously 5 seconds
     await asyncio.sleep(5)
