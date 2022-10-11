@@ -1,7 +1,8 @@
 import asyncio
 import numpy as np
 from scipy.spatial.transform import Rotation as rotat
-
+from mavsdk import System
+from mavsdk import mocap
 import qtm
 
 
@@ -75,7 +76,9 @@ async def main():
             """
             scipy_quaternion = rotation_matrix.as_quat()
             mavsdk_quaternion = scipy_quaternion[[1, 2, 3, 0]]
-            mavsdk.mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position_body, pose_covariance)
+            pose_covariance = np.nan
+            drone = System()
+            drone.mocap.set_attitude_position_mocap(mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position, pose_covariance))
 
     one_pack = await connection.get_current_frame(components=["6d"])
 
