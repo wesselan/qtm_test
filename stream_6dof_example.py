@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import pkg_resources
 import numpy as np
 from scipy.spatial.transform import Rotation as R
-import mavsdk
+# import mavsdk
 
 
 import qtm
@@ -62,7 +62,7 @@ async def main():
         time_var = packet.get_timecode()
         print(time_var)
         print(
-            "Framenumber: {} - Body count: {}".format(
+            "FrameNumber: {} - Body count: {}".format(
                 packet.framenumber, info.body_count
             )
         )
