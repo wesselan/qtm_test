@@ -2,7 +2,7 @@ import asyncio
 import numpy as np
 from scipy.spatial.transform import Rotation as rotat
 from mavsdk import System
-from mavsdk import mocap
+from mavsdk.mocap import AttitudePositionMocap
 import qtm
 
 
@@ -19,7 +19,9 @@ async def main():
     async with qtm.TakeControl(connection, "password"):
         await connection.new()
 
-    def on_packet(packet):
+    drone = System()
+
+    def on_packet(packet, drone_system):
         # get and print packet number and bodies
         info, bodies = packet.get_6d()  # what is packet.get_...
         print("Frame number: {} - Body count: {}".format(
@@ -77,12 +79,13 @@ async def main():
             scipy_quaternion = rotation_matrix.as_quat()
             mavsdk_quaternion = scipy_quaternion[[1, 2, 3, 0]]
             pose_covariance = np.nan
-            drone = System()
-            drone.mocap.set_attitude_position_mocap(mocap.AttitudePositionMocap(time_usec, mavsdk_quaternion, position, pose_covariance))
+            time_usec = 0
+            drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion,
+                                                                                 position, pose_covariance))
 
     one_pack = await connection.get_current_frame(components=["6d"])
 
-    on_packet(one_pack)
+    on_packet(one_pack, drone)
 
 
 if __name__ == "__main__":
