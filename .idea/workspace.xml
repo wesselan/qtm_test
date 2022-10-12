@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23de351a-e417-4a50-bd99-787f40462fe9" name="Changes" comment="added python 3.10 interpreter">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/qtm_display.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/qtm_display.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2022_1_15_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2022_1_15_PM__Changes_.xml" afterDir="false" />
+    <list default="true" id="23de351a-e417-4a50-bd99-787f40462fe9" name="Changes" comment="trying to make mavsdk work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AW_stream_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/AW_stream_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stream_6dof_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/stream_6dof_example.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +54,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665512054131</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added python 3.10 interpreter, fixing venv">
+      <created>1665590497632</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1665590497632</updated>
+    </task>
+    <task id="LOCAL-00003" summary="trying to make mavsdk work">
+      <created>1665590520871</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1665590520871</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -74,6 +84,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added python 3.10 interpreter" />
-    <option name="LAST_COMMIT_MESSAGE" value="added python 3.10 interpreter" />
+    <MESSAGE value="added python 3.10 interpreter, fixing venv" />
+    <MESSAGE value="trying to make mavsdk work" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/AW_stream_test.py</url>
+          <line>105</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
