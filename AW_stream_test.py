@@ -1,10 +1,15 @@
 import asyncio
+
+import mavsdk.mocap
 import numpy as np
 from scipy.spatial.transform import Rotation as rotat
 from mavsdk import System
 from mavsdk.mocap import AttitudePositionMocap
 import qtm
+import pkg_resources
 
+
+QTM_FILE = pkg_resources.resource_filename("qtm", "data/Demo.qtm")
 
 async def main():
     connection = await qtm.connect("127.0.0.1")
@@ -17,11 +22,29 @@ async def main():
 
     # close qtm files and start realtime camera feed
     async with qtm.TakeControl(connection, "password"):
-        await connection.new()
+        realtime = False
+
+        if realtime:
+            # Start new realtime
+            await connection.new()
+        else:
+            # Load qtm file
+            await connection.load(QTM_FILE)
+
+            # start rtfromfile
+            await connection.start(rtfromfile=True)
 
     drone = System()
+    drone = System(mavsdk_server_address='localhost', port=50051)
+    print("Trying to connect...")
+    await drone.connect(system_address="udp://:14540")
+    print("Waiting for drone to connect...")
+    async for state in drone.core.connection_state():
+        if state.is_connected:
+            print(f"-- Connected to drone!")
+            break
 
-    def on_packet(packet, drone_system):
+    async def on_packet(packet, drone_system):
         # get and print packet number and bodies
         info, bodies = packet.get_6d()  # what is packet.get_...
         print("Frame number: {} - Body count: {}".format(
@@ -77,15 +100,15 @@ async def main():
             pose_covariance (Covariance) – Pose cross-covariance matrix.
             """
             scipy_quaternion = rotation_matrix.as_quat()
-            mavsdk_quaternion = scipy_quaternion[[1, 2, 3, 0]]
-            pose_covariance = np.nan
+            mavsdk_quaternion = mavsdk.mocap.Quaternion(scipy_quaternion[[1]], scipy_quaternion[[2]], scipy_quaternion[[3]], scipy_quaternion[[0]])
+            mavsdk_position = mavsdk.mocap.PositionBody(position.x, position.y, position.z)
+            pose_covariance = mavsdk.mocap.Covariance([np.nan])
             time_usec = 0
-            drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion,
-                                                                                 position, pose_covariance))
+            await drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance))
 
     one_pack = await connection.get_current_frame(components=["6d"])
 
-    on_packet(one_pack, drone)
+    await on_packet(one_pack, drone)
 
 
 if __name__ == "__main__":
