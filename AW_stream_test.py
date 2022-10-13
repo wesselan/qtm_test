@@ -34,7 +34,6 @@ async def main():
             # start rtfromfile
             await connection.start(rtfromfile=True)
 
-    drone = System()
     drone = System(mavsdk_server_address='localhost', port=50051)
     print("Trying to connect...")
     await drone.connect(system_address="udp://:14540")
@@ -44,7 +43,7 @@ async def main():
             print(f"-- Connected to drone!")
             break
 
-    async def on_packet(packet, drone_system):
+    def on_packet(packet):
         # get and print packet number and bodies
         info, bodies = packet.get_6d()  # what is packet.get_...
         print("Frame number: {} - Body count: {}".format(
@@ -104,12 +103,15 @@ async def main():
             mavsdk_position = mavsdk.mocap.PositionBody(position.x, position.y, position.z)
             pose_covariance = mavsdk.mocap.Covariance([np.nan])
             time_usec = 0
-            await drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance))
+
+
+            await drone.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance))
 
     # one_pack = await connection.get_current_frame(components=["6d"])
 
     # await on_packet(one_pack, drone)
     await connection.stream_frames(frames="frequency:1", components=["6d"], on_packet=on_packet)
+
 
 if __name__ == "__main__":
     # Run our asynchronous function until complete
