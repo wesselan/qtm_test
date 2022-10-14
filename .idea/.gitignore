@@ -1,6 +1,6 @@
 # Default ignored files
 /shelf/
-.idea/workspace.xml
+/workspace.xml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -127,7 +127,7 @@ celerybeat.pid
 .env
 .venv
 env/
-venv/
+../venv/
 ENV/
 env.bak/
 venv.bak/
