@@ -43,7 +43,7 @@ async def main():
             print(f"-- Connected to drone!")
             break
 
-    async def on_packet(packet, drone_system):
+    def on_packet(packet):
         # get and print packet number and bodies
         info, bodies = packet.get_6d()  # what is packet.get_...
         print("Frame number: {} - Body count: {}".format(
@@ -104,13 +104,14 @@ async def main():
             pose_covariance = mavsdk.mocap.Covariance([np.nan])
             time_usec = 0
 
-            await drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance))
+            asyncio.get_running_loop().create_task(drone.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance)))
 
-    #while True:
-    one_pack = await connection.get_current_frame(components=["6d"])
-    await on_packet(one_pack, drone)
+    # one_pack = await connection.get_current_frame(components=["6d"])
 
+    # await on_packet(one_pack, drone)
+    await connection.stream_frames(frames="frequency:1", components=["6d"], on_packet=on_packet)
     await asyncio.sleep(5)
+    await connection.stream_frames_stop()
 
 
 if __name__ == "__main__":
