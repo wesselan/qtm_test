@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23de351a-e417-4a50-bd99-787f40462fe9" name="Changes" comment="trying to make streaming work" />
+    <list default="true" id="23de351a-e417-4a50-bd99-787f40462fe9" name="Changes" comment="wait after receiving and sending only one packet">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,7 +12,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="python-3.10-test" />
+        <entry key="$PROJECT_DIR$" value="single_frame_loop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -121,7 +123,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665752640524</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="i cant ignore workspace.xml">
+      <created>1665754590717</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1665754590717</updated>
+    </task>
+    <task id="LOCAL-00013" summary="wait after receiving and sending only one packet">
+      <created>1665755001219</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1665755001219</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -144,7 +160,9 @@
     <MESSAGE value="Tony made changes" />
     <MESSAGE value="update ignore" />
     <MESSAGE value="trying to make streaming work" />
-    <option name="LAST_COMMIT_MESSAGE" value="trying to make streaming work" />
+    <MESSAGE value="i cant ignore workspace.xml" />
+    <MESSAGE value="wait after receiving and sending only one packet" />
+    <option name="LAST_COMMIT_MESSAGE" value="wait after receiving and sending only one packet" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
