@@ -110,7 +110,7 @@ async def main():
 
     # await on_packet(one_pack, drone)
     await connection.stream_frames(frames="frequency:1", components=["6d"], on_packet=on_packet)
-    await asyncio.sleep(5)
+    await asyncio.sleep(4)
     await connection.stream_frames_stop()
 
 if __name__ == "__main__":
