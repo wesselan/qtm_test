@@ -106,10 +106,11 @@ async def main():
 
             await drone_system.mocap.set_attitude_position_mocap(AttitudePositionMocap(time_usec, mavsdk_quaternion, mavsdk_position, pose_covariance))
 
-    while True:
-        one_pack = await connection.get_current_frame(components=["6d"])
-        await on_packet(one_pack, drone)
+    #while True:
+    one_pack = await connection.get_current_frame(components=["6d"])
+    await on_packet(one_pack, drone)
 
+    await asyncio.sleep(5)
 
 if __name__ == "__main__":
     # Run our asynchronous function until complete
