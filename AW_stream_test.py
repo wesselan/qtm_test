@@ -7,9 +7,14 @@ from mavsdk import System
 from mavsdk.mocap import AttitudePositionMocap
 import qtm
 import pkg_resources
+from os import getcwd
 
-
+# use the demo file from QTM, (not realistic UAV motion)
 QTM_FILE = pkg_resources.resource_filename("qtm", "data/Demo.qtm")
+# use recorded UAV data from vehicle sitting on the ground
+QTM_FILE = getcwd() + "\\example_qtm_files\\UAV1_landed.qtm"
+# use recorded data of UAV flying
+# QTM_FILE = getcwd() + "\\example_qtm_files\\UAV1_flight.qtm"
 
 async def main():
     connection = await qtm.connect("127.0.0.1")
